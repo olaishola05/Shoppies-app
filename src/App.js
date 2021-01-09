@@ -1,11 +1,12 @@
 import React from "react";
-
+import "./App.css";
+import Shoppies from "./components/Shoppies";
 function App() {
     return (
         <React.Fragment>
-            <h2>Hello Peeps!</h2>
-
-            <p>Movies App</p>
+            <main>
+                <Shoppies />
+            </main>
         </React.Fragment>
     );
 }

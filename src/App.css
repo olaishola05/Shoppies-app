@@ -1,1 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+main {
+    background: #e9eaec;
+    width: 80vw;
+    height: 50vh;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.search-container {
+    width: 80%;
+    margin: 0 auto;
+}
+.app-name {
+    padding-bottom: 10px;
+    padding-top: 2rem;
+}
+
+.search {
+    background: white;
+    height: 12vh;
+    width: 100%;
+    padding: 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.result {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.movieList {
+    padding: 10px;
+    padding-left: 50px;
+}
+
+.movie-container {
+    background: white;
+    width: 36vw;
+    margin-top: 10px;
+}
+
+.nominees {
+    background: white;
+    width: 36vw;
+    margin-top: 10px;
+    padding: 10px;
+    padding-left: 20px;
+}
