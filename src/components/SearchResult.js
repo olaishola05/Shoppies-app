@@ -2,9 +2,9 @@ import React from "react";
 
 function SearchResult() {
     return (
-        <div className="search-container">
+        <div>
             <div className="movie-container">
-                <h5>Results for search</h5>
+                <h4>Results for search</h4>
                 <ul className="movieList">
                     <li>movie</li>
                     <li>movie</li>

@@ -3,15 +3,28 @@ import SearchBox from "./SearchBox";
 import SearchResult from "./SearchResult";
 import Nominations from "./Nominations";
 
+import { Container, Row, Col } from "react-bootstrap";
+
 function Shoppies() {
     return (
-        <div>
-            <SearchBox />
+        <Container>
+            <Row>
+                <SearchBox />
+            </Row>
             <div className="result">
-                <SearchResult />
-                <Nominations />
+                <Container>
+                    <Row>
+                        <Col>
+                            <SearchResult />
+                        </Col>
+
+                        <Col>
+                            <Nominations />
+                        </Col>
+                    </Row>
+                </Container>
             </div>
-        </div>
+        </Container>
     );
 }
 

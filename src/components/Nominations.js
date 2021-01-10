@@ -7,6 +7,8 @@ function Nominations() {
             <ul className="movieList">
                 <li>Nominees</li>
                 <li>Nominees</li>
+                <li>Nominees</li>
+                <li>Nominees</li>
             </ul>
         </div>
     );

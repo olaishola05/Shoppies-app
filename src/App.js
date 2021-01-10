@@ -1,11 +1,14 @@
 import React from "react";
 import "./App.css";
 import Shoppies from "./components/Shoppies";
+import { Container } from "react-bootstrap";
 function App() {
     return (
         <React.Fragment>
             <main>
-                <Shoppies />
+                <Container>
+                    <Shoppies />
+                </Container>
             </main>
         </React.Fragment>
     );
