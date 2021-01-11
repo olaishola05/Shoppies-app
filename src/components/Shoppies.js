@@ -6,17 +6,18 @@ import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const url = `http://www.omdbapi.com/?apikey=${API_KEY}&s=batman`;
+const url = `http://www.omdbapi.com/?apikey=${API_KEY}&s=24`;
 
 function Shoppies() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState({ movies: [] });
 
-    useEffect(async () => {
-        await axios(url);
+    useEffect(() => {
+        axios.get(url).then((res) => {
+            const movieList = res.data;
 
-        setData(data);
-        console.log(data);
-        console.log(data["Search"][0]["Title"]);
+            setData({ movies: movieList });
+            console.log(data.movies);
+        });
     }, []);
 
     return (
@@ -28,7 +29,7 @@ function Shoppies() {
                 <Container>
                     <Row>
                         <Col>
-                            <SearchResult data={data} />
+                            <SearchResult data={data.movies} />
                         </Col>
 
                         <Col>
