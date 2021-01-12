@@ -6,17 +6,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const url = `http://www.omdbapi.com/?apikey=${API_KEY}&s=24`;
+const url = `http://www.omdbapi.com/?apikey=${API_KEY}&r&s=boondocks`;
 
 function Shoppies() {
-    const [data, setData] = useState({ movies: [] });
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         axios.get(url).then((res) => {
-            const movieList = res.data;
-
-            setData({ movies: movieList });
-            console.log(data.movies);
+            setData(res.data.Search);
         });
     }, []);
 
@@ -29,7 +26,7 @@ function Shoppies() {
                 <Container>
                     <Row>
                         <Col>
-                            <SearchResult data={data.movies} />
+                            <SearchResult data={data} />
                         </Col>
 
                         <Col>
