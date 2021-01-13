@@ -1,15 +1,27 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
 function SearchResult(props) {
     console.log(props);
     return (
         <div>
             <div className="movie-container">
-                <h4>Results for search</h4>
+                <h5>Results for '{props.query}'</h5>
                 <ul className="movieList">
                     {props.data.map((movie, index) => {
                         return (
-                            <li key={index}>{movie.Title}</li>
+                            <div className="searchList">
+                                <li key={index}>
+                                    {movie.Title}{" "}
+                                </li>
+
+                                <Button
+                                    variant="secondary"
+                                    size="sm"
+                                >
+                                    Nominate
+                                </Button>
+                            </div>
                         );
                     })}
                 </ul>
