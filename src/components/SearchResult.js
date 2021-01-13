@@ -8,14 +8,13 @@ function SearchResult(props) {
                 <h5>Results for '{props.query}'</h5>
                 <div className="movieList">
                     {props.data.map((movie) => {
+                        props.setmovieTitle(movie);
                         return (
-                            <div
+                            <ul
                                 className="searchList"
                                 key={movie.imdbID}
                             >
-                                <ul>
-                                    <li>{movie.Title} </li>
-                                </ul>
+                                <li>{movie.Title} </li>
 
                                 <Button
                                     variant="secondary"
@@ -26,7 +25,7 @@ function SearchResult(props) {
                                 >
                                     Nominate
                                 </Button>
-                            </div>
+                            </ul>
                         );
                     })}
                 </div>

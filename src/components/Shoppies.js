@@ -10,7 +10,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 function Shoppies() {
     const [data, setData] = useState([]);
     const [query, setQuery] = useState("");
-    const [nomination, setNomination] = useState([]);
+    const [movieTitle, setmovieTitle] = useState("");
     useEffect(() => {
         const fetchMovies = () => {
             const url = `http://www.omdbapi.com/?apikey=${API_KEY}&r&s=${query}`;
@@ -28,30 +28,14 @@ function Shoppies() {
 
     const handleNomination = (e) => {
         e.preventDefault();
-        addNomination("movie.Title");
     };
-
-    const addNomination = (movie) => {
-        const newNomination = data.filter((movie) => {
-            if (!movie.imdbID) {
-                nomination.push(movie.Title);
-            }
-
-            return nomination;
-        });
-
-        setNomination(newNomination);
-        console.log(nomination);
-    };
-
     // delete nominees
 
     const delNomination = () => {
-        const update = nomination.filter(
-            (movie) => movie.Title !== movie.imdbID
-        );
-
-        setNomination(update);
+        // const update = nomination.filter(
+        //     (movie) => movie.Title !== movie.imdbID
+        // );
+        // setNomination(update);
     };
 
     return (
@@ -82,13 +66,15 @@ function Shoppies() {
                                     handleNomination={
                                         handleNomination
                                     }
+                                    movieTitle={movieTitle}
+                                    setmovieTitle={setmovieTitle}
                                 />
                             )}
                         </Col>
 
                         <Col>
                             <Nominations
-                                nomination={nomination}
+                                movieTitle={movieTitle}
                                 delNomination={delNomination}
                             />
                         </Col>
