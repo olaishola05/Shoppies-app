@@ -10,35 +10,57 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 function Shoppies() {
     const [data, setData] = useState([]);
     const [query, setQuery] = useState("");
-
+    const [nomination, setNomination] = useState([]);
     useEffect(() => {
-        const url = `http://www.omdbapi.com/?apikey=${API_KEY}&r&s=${query}`;
-        axios.get(url).then((res) => {
-            setData(res.data.Search);
-        });
+        const fetchMovies = () => {
+            const url = `http://www.omdbapi.com/?apikey=${API_KEY}&r&s=${query}`;
+            axios.get(url).then((res) => {
+                setData(res.data.Search);
+            });
+        };
+
+        fetchMovies();
     }, [query]);
+
+    const handleChange = (e) => {
+        setQuery(e.target.value);
+    };
 
     const handleNomination = (e) => {
         e.preventDefault();
+        addNomination("movie.Title");
+    };
+
+    const addNomination = (movie) => {
+        const newNomination = data.filter((movie) => {
+            if (!movie.imdbID) {
+                nomination.push(movie.Title);
+            }
+
+            return nomination;
+        });
+
+        setNomination(newNomination);
+        console.log(nomination);
+    };
+
+    // delete nominees
+
+    const delNomination = () => {
+        const update = nomination.filter(
+            (movie) => movie.Title !== movie.imdbID
+        );
+
+        setNomination(update);
     };
 
     return (
         <Container>
             <Row>
-                <div className="search-container">
-                    <h3 className="app-name">The Shoppies</h3>
-                    <div className="search">
-                        <span>Movie Title</span>
-                        <input
-                            type="text"
-                            value={query}
-                            placeholder="Enter movies title"
-                            onChange={(event) =>
-                                setQuery(event.target.value)
-                            }
-                        />
-                    </div>
-                </div>
+                <SearchBox
+                    query={query}
+                    handleChange={handleChange}
+                />
             </Row>
             <div className="result">
                 <Container>
@@ -65,7 +87,10 @@ function Shoppies() {
                         </Col>
 
                         <Col>
-                            <Nominations />
+                            <Nominations
+                                nomination={nomination}
+                                delNomination={delNomination}
+                            />
                         </Col>
                     </Row>
                 </Container>
