@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
 function SearchResult(props) {
+    const [list, setlist] = useState(props.data);
+
     return (
         <div>
             <div className="movie-container">
                 <h5>Results for '{props.query}'</h5>
                 <div className="movieList">
-                    {props.data.map((movie) => {
-                        props.setmovieTitle(movie);
+                    {list.map((movie) => {
+                        props.setmovieTitle(list);
                         return (
                             <ul
                                 className="searchList"
@@ -19,8 +21,10 @@ function SearchResult(props) {
                                 <Button
                                     variant="secondary"
                                     size="sm"
-                                    onClick={
-                                        props.handleNomination
+                                    onClick={() =>
+                                        props.handleNomination(
+                                            movie.Title
+                                        )
                                     }
                                 >
                                     Nominate

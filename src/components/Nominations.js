@@ -5,23 +5,28 @@ function Nominations(props) {
     return (
         <div className="nominees">
             <h4>Nominees</h4>
-            <ul className="movieList">
-                {
-                    <div className="nomList">
-                        <ul>
-                            <li>{props.movieTitle.Title}</li>
-                        </ul>
-
-                        <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => props.delNomination()}
-                        >
-                            Remove
-                        </Button>
-                    </div>
-                }
-            </ul>
+            <div className="movieList">
+                {props.nomination.map((movie, index) => {
+                    return (
+                        <div className="nomList">
+                            <ul key={index}>
+                                <li>{movie.Title}</li>
+                            </ul>
+                            <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() =>
+                                    props.delNomination(
+                                        movie.Title
+                                    )
+                                }
+                            >
+                                Remove
+                            </Button>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 }

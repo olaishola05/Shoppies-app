@@ -11,6 +11,9 @@ function Shoppies() {
     const [data, setData] = useState([]);
     const [query, setQuery] = useState("");
     const [movieTitle, setmovieTitle] = useState("");
+    const [nomination, setnomination] = useState([]);
+    const [button, setbutton] = useState(true);
+
     useEffect(() => {
         const fetchMovies = () => {
             const url = `http://www.omdbapi.com/?apikey=${API_KEY}&r&s=${query}`;
@@ -26,16 +29,19 @@ function Shoppies() {
         setQuery(e.target.value);
     };
 
-    const handleNomination = (e) => {
-        e.preventDefault();
-    };
-    // delete nominees
+    const handleNomination = (Title) => {
+        const nominate = nomination.concat({ Title });
 
-    const delNomination = () => {
-        // const update = nomination.filter(
-        //     (movie) => movie.Title !== movie.imdbID
-        // );
-        // setNomination(update);
+        setnomination(nominate);
+        setbutton(false);
+    };
+
+    // delete nominees
+    const delNomination = (Title) => {
+        const newMovie = nomination.filter(
+            (item) => item.Title !== Title
+        );
+        setnomination(newMovie);
     };
 
     return (
@@ -66,7 +72,6 @@ function Shoppies() {
                                     handleNomination={
                                         handleNomination
                                     }
-                                    movieTitle={movieTitle}
                                     setmovieTitle={setmovieTitle}
                                 />
                             )}
@@ -74,7 +79,7 @@ function Shoppies() {
 
                         <Col>
                             <Nominations
-                                movieTitle={movieTitle}
+                                nomination={nomination}
                                 delNomination={delNomination}
                             />
                         </Col>
