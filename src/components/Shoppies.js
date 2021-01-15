@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SearchBox from "./SearchBox";
 import SearchResult from "./SearchResult";
 import Nominations from "./Nominations";
@@ -10,9 +10,16 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 function Shoppies() {
     const [data, setData] = useState([]);
     const [query, setQuery] = useState("");
-    const [movieTitle, setmovieTitle] = useState("");
     const [nomination, setnomination] = useState([]);
-    const [button, setbutton] = useState(true);
+
+    const btnRef = useRef();
+
+    // React.useEffect(() => {
+    //     localStorage.setItem(
+    //         "myValueInLocalStorage",
+    //         nomination
+    //     );
+    // }, [nomination]);
 
     useEffect(() => {
         const fetchMovies = () => {
@@ -29,17 +36,27 @@ function Shoppies() {
         setQuery(e.target.value);
     };
 
-    const handleNomination = (Title) => {
-        const nominate = nomination.concat({ Title });
+    const handleNomination = (Title, imdbID) => {
+        if (nomination.length >= 5) {
+            alert("u have exhausted your nominees");
+        } else {
+            const nominate = nomination.concat({
+                Title,
+                imdbID,
+            });
 
-        setnomination(nominate);
-        setbutton(false);
+            setnomination(nominate);
+        }
+
+        if (btnRef.current) {
+            btnRef.current.setAttribute("enabled", "disabled");
+        }
     };
 
     // delete nominees
-    const delNomination = (Title) => {
+    const delNomination = (imdbID) => {
         const newMovie = nomination.filter(
-            (item) => item.Title !== Title
+            (item) => item.imdbID !== imdbID
         );
         setnomination(newMovie);
     };
@@ -72,7 +89,6 @@ function Shoppies() {
                                     handleNomination={
                                         handleNomination
                                     }
-                                    setmovieTitle={setmovieTitle}
                                 />
                             )}
                         </Col>

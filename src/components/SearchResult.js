@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { forwardRef } from "react";
 import { Button } from "react-bootstrap";
 
-function SearchResult(props) {
-    const [list, setlist] = useState(props.data);
+function SearchResult(props, ref) {
+    const list = props.data;
 
     return (
         <div>
@@ -10,7 +10,6 @@ function SearchResult(props) {
                 <h5>Results for '{props.query}'</h5>
                 <div className="movieList">
                     {list.map((movie) => {
-                        props.setmovieTitle(list);
                         return (
                             <ul
                                 className="searchList"
@@ -21,9 +20,11 @@ function SearchResult(props) {
                                 <Button
                                     variant="secondary"
                                     size="sm"
+                                    ref={ref}
                                     onClick={() =>
                                         props.handleNomination(
-                                            movie.Title
+                                            movie.Title,
+                                            movie.imdbID
                                         )
                                     }
                                 >
@@ -37,5 +38,8 @@ function SearchResult(props) {
         </div>
     );
 }
+// const btnStyle = {
+//     display: "disabled",
+// };
 
-export default SearchResult;
+export default forwardRef(SearchResult);
