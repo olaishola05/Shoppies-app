@@ -12,14 +12,9 @@ function Shoppies() {
     const [query, setQuery] = useState("");
     const [nomination, setnomination] = useState([]);
 
-    const btnRef = useRef();
+    const [btnState, setbtnState] = useState(false);
 
-    // React.useEffect(() => {
-    //     localStorage.setItem(
-    //         "myValueInLocalStorage",
-    //         nomination
-    //     );
-    // }, [nomination]);
+    let btnRef = useRef(null);
 
     useEffect(() => {
         const fetchMovies = () => {
@@ -38,8 +33,9 @@ function Shoppies() {
 
     const handleNomination = (Title, imdbID) => {
         if (nomination.length >= 5) {
-            alert("u have exhausted your nominees");
+            // break;
         } else {
+            btnRef.current.setAttribute("disabled", "disabled");
             const nominate = nomination.concat({
                 Title,
                 imdbID,
@@ -47,9 +43,8 @@ function Shoppies() {
 
             setnomination(nominate);
         }
-
-        if (btnRef.current) {
-            btnRef.current.setAttribute("enabled", "disabled");
+        if (imdbID) {
+            setbtnState(true);
         }
     };
 
@@ -84,7 +79,9 @@ function Shoppies() {
                                 </div>
                             ) : (
                                 <SearchResult
+                                    btn={btnState}
                                     data={data}
+                                    ref={btnRef}
                                     query={query}
                                     handleNomination={
                                         handleNomination

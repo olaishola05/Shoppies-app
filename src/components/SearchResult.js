@@ -2,6 +2,7 @@ import React, { forwardRef } from "react";
 import { Button } from "react-bootstrap";
 
 function SearchResult(props, ref) {
+    console.log(ref);
     const list = props.data;
 
     return (
@@ -19,9 +20,10 @@ function SearchResult(props, ref) {
 
                                 <Button
                                     variant="secondary"
-                                    size="sm"
                                     ref={ref}
-                                    onClick={() =>
+                                    size="sm"
+                                    disabled={props.btn}
+                                    onClick={(e) =>
                                         props.handleNomination(
                                             movie.Title,
                                             movie.imdbID
@@ -43,3 +45,4 @@ function SearchResult(props, ref) {
 // };
 
 export default forwardRef(SearchResult);
+// export default SearchResult;

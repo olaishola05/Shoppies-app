@@ -6,6 +6,7 @@ function Nominations(props) {
     return (
         <div className="nominees">
             <h4>Nominees</h4>
+            {props.nomination >= 5 && <p>{props.msg}</p>}
             <div className="movieList">
                 {props.nomination.map((movie, index) => {
                     return (
