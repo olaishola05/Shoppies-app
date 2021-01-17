@@ -17,7 +17,7 @@ function Shoppies() {
 
     useEffect(() => {
         const fetchMovies = () => {
-            const url = `http://www.omdbapi.com/?apikey=${API_KEY}&r&s=${query}`;
+            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&r&s=${query}`;
             axios.get(url).then((res) => {
                 setData(res.data.Search);
             });
