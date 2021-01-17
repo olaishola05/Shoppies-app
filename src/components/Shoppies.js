@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SearchBox from "./SearchBox";
 import SearchResult from "./SearchResult";
 import Nominations from "./Nominations";
+
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
@@ -11,8 +12,6 @@ function Shoppies() {
     const [data, setData] = useState([]);
     const [query, setQuery] = useState("");
     const [nomination, setnomination] = useState([]);
-
-    const [btnState, setbtnState] = useState(false);
 
     let btnRef = useRef(null);
 
@@ -33,19 +32,38 @@ function Shoppies() {
 
     const handleNomination = (Title, imdbID) => {
         if (nomination.length >= 5) {
-            // break;
+            alert("nomination exhausted");
         } else {
-            btnRef.current.setAttribute("disabled", "disabled");
             const nominate = nomination.concat({
                 Title,
                 imdbID,
             });
-
             setnomination(nominate);
+            localStorage.setItem(
+                "nominations",
+                JSON.stringify(nominate)
+            );
+            btnState();
         }
-        if (imdbID) {
-            setbtnState(true);
+    };
+
+    useEffect(() => {
+        const storedData = localStorage.getItem("nominations");
+        if (storedData) {
+            setnomination(JSON.parse(storedData));
         }
+    }, []);
+
+    const btnState = (Title) => {
+        nomination.map((item) => {
+            if (item.Title === Title) {
+                btnRef.current.setAttribute(
+                    "disabled",
+                    "disabled"
+                );
+            }
+            return item;
+        });
     };
 
     // delete nominees
@@ -70,8 +88,6 @@ function Shoppies() {
                         <Col>
                             {!data ? (
                                 <div className="movie-container">
-                                    {query}
-
                                     <h5>
                                         Search for favorite
                                         movies to nominate
@@ -79,7 +95,6 @@ function Shoppies() {
                                 </div>
                             ) : (
                                 <SearchResult
-                                    btn={btnState}
                                     data={data}
                                     ref={btnRef}
                                     query={query}

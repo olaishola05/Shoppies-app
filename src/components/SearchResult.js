@@ -21,9 +21,9 @@ function SearchResult(props, ref) {
                                 <Button
                                     variant="secondary"
                                     ref={ref}
+                                    disabled={movie.isActive}
                                     size="sm"
-                                    disabled={props.btn}
-                                    onClick={(e) =>
+                                    onClick={() =>
                                         props.handleNomination(
                                             movie.Title,
                                             movie.imdbID

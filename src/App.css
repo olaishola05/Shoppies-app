@@ -4,20 +4,20 @@
     box-sizing: border-box;
 }
 
-body {
-    overflow: auto;
+html {
+    scroll-behavior: smooth;
 }
 
-main {
+.cont {
     background: #e9eaec;
-    width: 80vw;
+    width: 70vw;
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 50px;
 }
 
 .search-container {
-    width: 85%;
+    width: 80%;
     margin: 0 auto;
 }
 .app-name {
@@ -48,7 +48,7 @@ input {
 }
 
 .result {
-    width: 90%;
+    width: 85%;
     height: 20%;
     margin: 0 auto;
     display: grid;
@@ -106,4 +106,31 @@ Button {
 
 .nomList li {
     width: 200px;
+}
+
+/* media rules */
+
+@media only screen and (max-width: 600px) {
+    .cont {
+        margin: 0 auto;
+    }
+    .result {
+        width: 100%;
+    }
+
+    .search-container {
+        width: 85%;
+    }
+
+    .searchList li {
+        width: 100px;
+    }
+
+    .nomList {
+        width: 100%;
+    }
+
+    .nomList li {
+        width: 100px;
+    }
 }
