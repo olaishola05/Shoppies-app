@@ -39,24 +39,34 @@ function Shoppies() {
                 imdbID,
             });
             setnomination(nominate);
-            localStorage.setItem(
-                "nominations",
-                JSON.stringify(nominate)
-            );
+
             btnState();
         }
     };
 
     useEffect(() => {
-        const storedData = localStorage.getItem("nominations");
-        if (storedData) {
-            setnomination(JSON.parse(storedData));
+        const nomination = JSON.parse(
+            localStorage.getItem("nominations")
+        );
+        if (nomination) {
+            setnomination(nomination);
         }
     }, []);
 
-    const btnState = (Title) => {
+    useEffect(() => {
+        localStorage.setItem(
+            "nominations",
+            JSON.stringify(nomination)
+        );
+    }, [nomination]);
+
+    useEffect(() => {
+        localStorage.removeItem("nominations");
+    }, []);
+
+    const btnState = () => {
         nomination.map((item) => {
-            if (item.Title === Title) {
+            if (item.Title) {
                 btnRef.current.setAttribute(
                     "disabled",
                     "disabled"
