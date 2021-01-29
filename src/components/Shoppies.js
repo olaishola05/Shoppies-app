@@ -1,19 +1,53 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useReducer,
+} from "react";
 import SearchBox from "./SearchBox";
 import SearchResult from "./SearchResult";
 import Nominations from "./Nominations";
-
+import Modal from "./Modal";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-function Shoppies() {
-    const [data, setData] = useState([]);
-    const [query, setQuery] = useState("");
-    const [nomination, setnomination] = useState([]);
+const reducer = (action, state) => {
+    if (action.type === "LENGTH") {
+        return {
+            ...state,
+            isModalOpen: true,
+            modalContent: "You have exceeded your guess limit",
+        };
+    }
 
-    let btnRef = useRef(null);
+    if (action.type === "ADD_MOVIE") {
+        console.log(state);
+        const newMovie = [...state.nomination, action.payload];
+        return {
+            ...state,
+            nomination: newMovie,
+            isModalOpen: true,
+            modalContent: "Movie Title added",
+        };
+    }
+    return state;
+};
+
+const defaultState = {
+    nomination: [],
+    isModalOpen: false,
+    modalContent: "",
+};
+
+function Shoppies() {
+    const [query, setQuery] = useState("");
+    // const [nomination, setnomination] = useState([]);
+    const [state, dispatch] = useReducer(reducer, defaultState);
+    const [data, setData] = useState([]);
+
+    let inputRef = useRef(null);
 
     useEffect(() => {
         const fetchMovies = () => {
@@ -31,65 +65,83 @@ function Shoppies() {
     };
 
     const handleNomination = (Title, imdbID) => {
-        if (nomination.length >= 5) {
-            alert("nomination exhausted");
-        } else {
-            const nominate = nomination.concat({
+        // if (nomination.length >= 5) {
+        //     alert("nomination exhausted");
+        // } else {
+        //     const nominate = nomination.concat({
+        //         Title,
+        //         imdbID,
+        //     });
+        //     setnomination(nominate);
+
+        //     btnState();
+        // }
+        if (state.nomination.length >= 5) {
+            dispatch({ type: "LENGTH" });
+        }
+        if ((Title, imdbID)) {
+            const nominate = state.nomination.concat({
                 Title,
                 imdbID,
             });
-            setnomination(nominate);
-
-            btnState();
+            dispatch({ type: "ADD_MOVIE", payload: nominate });
         }
     };
 
-    useEffect(() => {
-        const nomination = JSON.parse(
-            localStorage.getItem("nominations")
-        );
-        if (nomination) {
-            setnomination(nomination);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const nomination = JSON.parse(
+    //         localStorage.getItem("nominations")
+    //     );
+    //     if (nomination) {
+    //         setnomination(nomination);
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        localStorage.setItem(
-            "nominations",
-            JSON.stringify(nomination)
-        );
-    }, [nomination]);
+    // useEffect(() => {
+    //     localStorage.setItem(
+    //         "nominations",
+    //         JSON.stringify(nomination)
+    //     );
+    // }, [nomination]);
 
-    useEffect(() => {
-        localStorage.removeItem("nominations");
-    }, []);
+    // useEffect(() => {
+    //     localStorage.removeItem("nominations");
+    // }, []);
 
-    const btnState = () => {
-        nomination.map((item) => {
-            if (item.Title) {
-                btnRef.current.setAttribute(
-                    "disabled",
-                    "disabled"
-                );
-            }
-            return item;
-        });
-    };
+    // const btnState = () => {
+    //     nomination.map((item) => {
+    //         if (item.Title) {
+    //             btnRef.current.setAttribute(
+    //                 "disabled",
+    //                 "disabled"
+    //             );
+    //         }
+    //         return item;
+    //     });
+    // };
 
     // delete nominees
     const delNomination = (imdbID) => {
-        const newMovie = nomination.filter(
-            (item) => item.imdbID !== imdbID
-        );
-        setnomination(newMovie);
+        // const newMovie = nomination.filter(
+        //     (item) => item.imdbID !== imdbID
+        // );
+        // setnomination(newMovie);
     };
+
+    useEffect(() => {
+        inputRef.current.focus();
+    });
 
     return (
         <Container>
+            {state.isModalOpen && (
+                <Modal modalContent={state.modalContent} />
+            )}
             <Row>
                 <SearchBox
                     query={query}
                     handleChange={handleChange}
+                    ref={inputRef}
                 />
             </Row>
             <div className="result">
@@ -106,7 +158,6 @@ function Shoppies() {
                             ) : (
                                 <SearchResult
                                     data={data}
-                                    ref={btnRef}
                                     query={query}
                                     handleNomination={
                                         handleNomination
@@ -117,7 +168,7 @@ function Shoppies() {
 
                         <Col>
                             <Nominations
-                                nomination={nomination}
+                                nomination={state.nomination}
                                 delNomination={delNomination}
                             />
                         </Col>

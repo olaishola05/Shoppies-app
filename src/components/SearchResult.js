@@ -1,8 +1,7 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 
-function SearchResult(props, ref) {
-    console.log(ref);
+function SearchResult(props) {
     const list = props.data;
 
     return (
@@ -20,7 +19,6 @@ function SearchResult(props, ref) {
 
                                 <Button
                                     variant="secondary"
-                                    ref={ref}
                                     disabled={movie.isActive}
                                     size="sm"
                                     onClick={() =>
@@ -44,5 +42,5 @@ function SearchResult(props, ref) {
 //     display: "disabled",
 // };
 
-export default forwardRef(SearchResult);
+export default SearchResult;
 // export default SearchResult;

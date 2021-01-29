@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment, forwardRef } from "react";
 
-function SearchBox(props) {
+function SearchBox(props, ref) {
     return (
         <Fragment>
             <div className="search-container">
@@ -8,6 +8,7 @@ function SearchBox(props) {
                 <div className="search">
                     <span>Movie Title</span>
                     <input
+                        ref={ref}
                         type="text"
                         value={props.query}
                         placeholder="Enter movies title"
@@ -19,4 +20,4 @@ function SearchBox(props) {
     );
 }
 
-export default SearchBox;
+export default forwardRef(SearchBox);
