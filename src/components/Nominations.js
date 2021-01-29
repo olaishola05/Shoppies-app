@@ -1,13 +1,14 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-function Nominations(props) {
+function Nominations({ nomination, delNomination }) {
+    console.log(nomination);
     return (
         <div className="nominees">
             <h4>Nominees</h4>
 
             <div className="movieList">
-                {props.nomination.map((movie, index) => {
+                {nomination.map((movie, index) => {
                     return (
                         <div key={index} className="nomList">
                             <ul>
@@ -17,9 +18,7 @@ function Nominations(props) {
                                 variant="secondary"
                                 size="sm"
                                 onClick={() =>
-                                    props.delNomination(
-                                        movie.imdbID
-                                    )
+                                    delNomination(movie.imdbID)
                                 }
                             >
                                 Remove

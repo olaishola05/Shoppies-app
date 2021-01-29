@@ -14,36 +14,35 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const reducer = (action, state) => {
-    if (action.type === "LENGTH") {
+    if (action.payload === "LENGTH") {
         return {
-            ...state,
+            // ...state,
             isModalOpen: true,
-            modalContent: "You have exceeded your guess limit",
+            modalContent: "You have exeeded your nomination",
         };
     }
-
     if (action.type === "ADD_MOVIE") {
-        console.log(state);
-        const newMovie = [...state.nomination, action.payload];
+        // const newMovie = [...state.nomination, action.payload];
         return {
             ...state,
-            nomination: newMovie,
+            // nomination: [...state.nomination, action.payload],
             isModalOpen: true,
             modalContent: "Movie Title added",
         };
     }
+    // throw new Error("no matching type");
     return state;
 };
 
 const defaultState = {
-    nomination: [],
+    // nomination: [],
     isModalOpen: false,
     modalContent: "",
 };
 
 function Shoppies() {
     const [query, setQuery] = useState("");
-    // const [nomination, setnomination] = useState([]);
+    const [nomination, setnomination] = useState([]);
     const [state, dispatch] = useReducer(reducer, defaultState);
     const [data, setData] = useState([]);
 
@@ -65,60 +64,58 @@ function Shoppies() {
     };
 
     const handleNomination = (Title, imdbID) => {
-        // if (nomination.length >= 5) {
-        //     alert("nomination exhausted");
-        // } else {
-        //     const nominate = nomination.concat({
-        //         Title,
-        //         imdbID,
-        //     });
-        //     setnomination(nominate);
-
-        //     btnState();
-        // }
-        if (state.nomination.length >= 5) {
+        if (nomination.length >= 5) {
             dispatch({ type: "LENGTH" });
-        }
-        if ((Title, imdbID)) {
-            const nominate = state.nomination.concat({
+        } else {
+            const nominate = nomination.concat({
                 Title,
                 imdbID,
             });
+            setnomination(nominate);
             dispatch({ type: "ADD_MOVIE", payload: nominate });
+
+            //     btnState();
+            // }
+            // if (Title) {
+            //     const nominate = {
+            //         id: new Date().getTime().toString(),
+            //         Title,
+            //     };
+            //     dispatch({ type: "ADD_MOVIE", payload: nominate });
+            // }
         }
+
+        // useEffect(() => {
+        //     const nomination = JSON.parse(
+        //         localStorage.getItem("nominations")
+        //     );
+        //     if (nomination) {
+        //         setnomination(nomination);
+        //     }
+        // }, []);
+
+        // useEffect(() => {
+        //     localStorage.setItem(
+        //         "nominations",
+        //         JSON.stringify(nomination)
+        //     );
+        // }, [nomination]);
+
+        // useEffect(() => {
+        //     localStorage.removeItem("nominations");
+        // }, []);
+
+        // const btnState = () => {
+        //     nomination.map((item) => {
+        //         if (item.Title) {
+        //             btnRef.current.setAttribute(
+        //                 "disabled",
+        //                 "disabled"
+        //             );
+        //         }
+        //         return item;
+        //     });
     };
-
-    // useEffect(() => {
-    //     const nomination = JSON.parse(
-    //         localStorage.getItem("nominations")
-    //     );
-    //     if (nomination) {
-    //         setnomination(nomination);
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     localStorage.setItem(
-    //         "nominations",
-    //         JSON.stringify(nomination)
-    //     );
-    // }, [nomination]);
-
-    // useEffect(() => {
-    //     localStorage.removeItem("nominations");
-    // }, []);
-
-    // const btnState = () => {
-    //     nomination.map((item) => {
-    //         if (item.Title) {
-    //             btnRef.current.setAttribute(
-    //                 "disabled",
-    //                 "disabled"
-    //             );
-    //         }
-    //         return item;
-    //     });
-    // };
 
     // delete nominees
     const delNomination = (imdbID) => {
@@ -133,49 +130,51 @@ function Shoppies() {
     });
 
     return (
-        <Container>
-            {state.isModalOpen && (
-                <Modal modalContent={state.modalContent} />
-            )}
-            <Row>
-                <SearchBox
-                    query={query}
-                    handleChange={handleChange}
-                    ref={inputRef}
-                />
-            </Row>
-            <div className="result">
-                <Container>
-                    <Row>
-                        <Col>
-                            {!data ? (
-                                <div className="movie-container">
-                                    <h5>
-                                        Search for favorite
-                                        movies to nominate
-                                    </h5>
-                                </div>
-                            ) : (
-                                <SearchResult
-                                    data={data}
-                                    query={query}
-                                    handleNomination={
-                                        handleNomination
-                                    }
-                                />
-                            )}
-                        </Col>
+        <>
+            <Container>
+                {state.isModalOpen && (
+                    <Modal modalContent={state.modalContent} />
+                )}
+                <Row>
+                    <SearchBox
+                        query={query}
+                        handleChange={handleChange}
+                        ref={inputRef}
+                    />
+                </Row>
+                <div className="result">
+                    <Container>
+                        <Row>
+                            <Col>
+                                {!data ? (
+                                    <div className="movie-container">
+                                        <h5>
+                                            Search for favorite
+                                            movies to nominate
+                                        </h5>
+                                    </div>
+                                ) : (
+                                    <SearchResult
+                                        data={data}
+                                        query={query}
+                                        handleNomination={
+                                            handleNomination
+                                        }
+                                    />
+                                )}
+                            </Col>
 
-                        <Col>
-                            <Nominations
-                                nomination={state.nomination}
-                                delNomination={delNomination}
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-        </Container>
+                            <Col>
+                                <Nominations
+                                    nomination={nomination}
+                                    delNomination={delNomination}
+                                />
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            </Container>
+        </>
     );
 }
 
