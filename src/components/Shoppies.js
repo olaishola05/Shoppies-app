@@ -14,18 +14,18 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const reducer = (action, state) => {
-    if (action.payload === "LENGTH") {
-        return {
-            // ...state,
-            isModalOpen: true,
-            modalContent: "You have exeeded your nomination",
-        };
-    }
+    // if (action.payload === "LENGTH") {
+    //     return {
+    //         // ...state,
+    //         isModalOpen: true,
+    //         modalContent: "You have exeeded your nomination",
+    //     };
+    // }
     if (action.type === "ADD_MOVIE") {
-        // const newMovie = [...state.nomination, action.payload];
+        const newMovie = [...state.nomination, action.payload];
         return {
             ...state,
-            // nomination: [...state.nomination, action.payload],
+            nomination: newMovie,
             isModalOpen: true,
             modalContent: "Movie Title added",
         };
@@ -35,14 +35,14 @@ const reducer = (action, state) => {
 };
 
 const defaultState = {
-    // nomination: [],
+    nomination: [],
     isModalOpen: false,
     modalContent: "",
 };
 
 function Shoppies() {
     const [query, setQuery] = useState("");
-    const [nomination, setnomination] = useState([]);
+    // const [nomination, setnomination] = useState([]);
     const [state, dispatch] = useReducer(reducer, defaultState);
     const [data, setData] = useState([]);
 
@@ -63,15 +63,14 @@ function Shoppies() {
         setQuery(e.target.value);
     };
 
-    const handleNomination = (Title, imdbID) => {
-        if (nomination.length >= 5) {
-            dispatch({ type: "LENGTH" });
-        } else {
-            const nominate = nomination.concat({
+    const handleNomination = () => {
+        const { Title, imdbID } = data;
+        if ((Title, imdbID)) {
+            const nominate = {
                 Title,
                 imdbID,
-            });
-            setnomination(nominate);
+            };
+
             dispatch({ type: "ADD_MOVIE", payload: nominate });
 
             //     btnState();
@@ -166,7 +165,7 @@ function Shoppies() {
 
                             <Col>
                                 <Nominations
-                                    nomination={nomination}
+                                    nomination={state.nomination}
                                     delNomination={delNomination}
                                 />
                             </Col>
