@@ -14,18 +14,13 @@ import axios from "axios";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const reducer = (action, state) => {
-    // if (action.payload === "LENGTH") {
-    //     return {
-    //         // ...state,
-    //         isModalOpen: true,
-    //         modalContent: "You have exeeded your nomination",
-    //     };
-    // }
     if (action.type === "ADD_MOVIE") {
-        const newMovie = [...state.nomination, action.payload];
+        console.log(state, action);
+        const addedItems = [...action.payload];
+        console.log(state.length);
         return {
             ...state,
-            nomination: newMovie,
+            nomination: addedItems,
             isModalOpen: true,
             modalContent: "Movie Title added",
         };
@@ -63,58 +58,42 @@ function Shoppies() {
         setQuery(e.target.value);
     };
 
-    const handleNomination = () => {
-        const { Title, imdbID } = data;
+    const handleNomination = (Title, imdbID) => {
         if ((Title, imdbID)) {
-            const nominate = {
-                Title,
-                imdbID,
-            };
-
-            dispatch({ type: "ADD_MOVIE", payload: nominate });
-
-            //     btnState();
-            // }
-            // if (Title) {
-            //     const nominate = {
-            //         id: new Date().getTime().toString(),
-            //         Title,
-            //     };
-            //     dispatch({ type: "ADD_MOVIE", payload: nominate });
-            // }
+            const test = [{ Title, imdbID }];
+            dispatch({ type: "ADD_MOVIE", payload: test });
         }
-
-        // useEffect(() => {
-        //     const nomination = JSON.parse(
-        //         localStorage.getItem("nominations")
-        //     );
-        //     if (nomination) {
-        //         setnomination(nomination);
-        //     }
-        // }, []);
-
-        // useEffect(() => {
-        //     localStorage.setItem(
-        //         "nominations",
-        //         JSON.stringify(nomination)
-        //     );
-        // }, [nomination]);
-
-        // useEffect(() => {
-        //     localStorage.removeItem("nominations");
-        // }, []);
-
-        // const btnState = () => {
-        //     nomination.map((item) => {
-        //         if (item.Title) {
-        //             btnRef.current.setAttribute(
-        //                 "disabled",
-        //                 "disabled"
-        //             );
-        //         }
-        //         return item;
-        //     });
     };
+    // useEffect(() => {
+    //     const nomination = JSON.parse(
+    //         localStorage.getItem("nominations")
+    //     );
+    //     if (nomination) {
+    //         setnomination(nomination);
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     localStorage.setItem(
+    //         "nominations",
+    //         JSON.stringify(nomination)
+    //     );
+    // }, [nomination]);
+
+    // useEffect(() => {
+    //     localStorage.removeItem("nominations");
+    // }, []);
+
+    // const btnState = () => {
+    //     nomination.map((item) => {
+    //         if (item.Title) {
+    //             btnRef.current.setAttribute(
+    //                 "disabled",
+    //                 "disabled"
+    //             );
+    //         }
+    //         return item;
+    //     });
 
     // delete nominees
     const delNomination = (imdbID) => {
@@ -164,10 +143,10 @@ function Shoppies() {
                             </Col>
 
                             <Col>
-                                <Nominations
+                                {/* <Nominations
                                     nomination={state.nomination}
                                     delNomination={delNomination}
-                                />
+                                /> */}
                             </Col>
                         </Row>
                     </Container>

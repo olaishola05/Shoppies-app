@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 
 function Nominations({ nomination, delNomination }) {
-    console.log(nomination);
+    console.log(nomination, "im nomination");
     return (
         <div className="nominees">
             <h4>Nominees</h4>
