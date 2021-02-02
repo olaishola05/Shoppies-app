@@ -16,8 +16,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 const reducer = (action, state) => {
     if (action.type === "ADD_MOVIE") {
         console.log(state, action);
-        const addedItems = [...action.payload];
-        console.log(state.length);
+        const addedItems = [action.payload];
         return {
             ...state,
             nomination: addedItems,
@@ -59,9 +58,12 @@ function Shoppies() {
     };
 
     const handleNomination = (Title, imdbID) => {
-        if ((Title, imdbID)) {
-            const test = [{ Title, imdbID }];
-            dispatch({ type: "ADD_MOVIE", payload: test });
+        if (Title) {
+            const addTitle = state.nomination.concat({
+                Title,
+                imdbID,
+            });
+            dispatch({ type: "ADD_MOVIE", payload: addTitle });
         }
     };
     // useEffect(() => {
@@ -143,10 +145,10 @@ function Shoppies() {
                             </Col>
 
                             <Col>
-                                {/* <Nominations
+                                <Nominations
                                     nomination={state.nomination}
                                     delNomination={delNomination}
-                                /> */}
+                                />
                             </Col>
                         </Row>
                     </Container>
