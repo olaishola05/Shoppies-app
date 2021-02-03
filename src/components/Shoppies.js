@@ -15,13 +15,25 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 const reducer = (action, state) => {
     if (action.type === "ADD_MOVIE") {
-        console.log(state, action);
-        const addedItems = [action.payload];
         return {
             ...state,
-            nomination: addedItems,
             isModalOpen: true,
             modalContent: "Movie Title added",
+        };
+    }
+
+    if (action.type === "REMOVE") {
+        return {
+            ...state,
+            isModalOpen: true,
+            modalContent: "movie title removed",
+        };
+    }
+
+    if (action.type === "CLOSE_MODAL") {
+        return {
+            ...state,
+            isModalOpen: false,
         };
     }
     // throw new Error("no matching type");
@@ -29,14 +41,13 @@ const reducer = (action, state) => {
 };
 
 const defaultState = {
-    nomination: [],
     isModalOpen: false,
     modalContent: "",
 };
 
 function Shoppies() {
     const [query, setQuery] = useState("");
-    // const [nomination, setnomination] = useState([]);
+    const [nomination, setnomination] = useState([]);
     const [state, dispatch] = useReducer(reducer, defaultState);
     const [data, setData] = useState([]);
 
@@ -59,61 +70,59 @@ function Shoppies() {
 
     const handleNomination = (Title, imdbID) => {
         if (Title) {
-            const addTitle = state.nomination.concat({
+            const addTitle = nomination.concat({
                 Title,
                 imdbID,
             });
-            dispatch({ type: "ADD_MOVIE", payload: addTitle });
+            dispatch({ type: "ADD_MOVIE" });
+            setnomination(addTitle);
         }
     };
-    // useEffect(() => {
-    //     const nomination = JSON.parse(
-    //         localStorage.getItem("nominations")
-    //     );
-    //     if (nomination) {
-    //         setnomination(nomination);
-    //     }
-    // }, []);
+    useEffect(() => {
+        const nomination = JSON.parse(
+            localStorage.getItem("nominations")
+        );
+        if (nomination) {
+            setnomination(nomination);
+        }
+    }, []);
 
-    // useEffect(() => {
-    //     localStorage.setItem(
-    //         "nominations",
-    //         JSON.stringify(nomination)
-    //     );
-    // }, [nomination]);
+    useEffect(() => {
+        localStorage.setItem(
+            "nominations",
+            JSON.stringify(nomination)
+        );
+    }, [nomination]);
 
-    // useEffect(() => {
-    //     localStorage.removeItem("nominations");
-    // }, []);
-
-    // const btnState = () => {
-    //     nomination.map((item) => {
-    //         if (item.Title) {
-    //             btnRef.current.setAttribute(
-    //                 "disabled",
-    //                 "disabled"
-    //             );
-    //         }
-    //         return item;
-    //     });
+    useEffect(() => {
+        localStorage.removeItem("nominations");
+    }, []);
 
     // delete nominees
     const delNomination = (imdbID) => {
-        // const newMovie = nomination.filter(
-        //     (item) => item.imdbID !== imdbID
-        // );
-        // setnomination(newMovie);
+        const newMovie = nomination.filter(
+            (item) => item.imdbID !== imdbID
+        );
+        setnomination(newMovie);
+        dispatch({ type: "REMOVE" });
     };
 
     useEffect(() => {
         inputRef.current.focus();
     });
 
+    const closeModal = () => {
+        dispatch({ type: "CLOSE_MODAL" });
+    };
+
     return (
         <>
             <Container>
                 {state.isModalOpen && (
-                    <Modal modalContent={state.modalContent} />
+                    <Modal
+                        modalContent={state.modalContent}
+                        closeModal={closeModal}
+                    />
                 )}
                 <Row>
                     <SearchBox
@@ -146,7 +155,7 @@ function Shoppies() {
 
                             <Col>
                                 <Nominations
-                                    nomination={state.nomination}
+                                    nomination={nomination}
                                     delNomination={delNomination}
                                 />
                             </Col>
