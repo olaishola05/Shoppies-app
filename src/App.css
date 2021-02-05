@@ -108,12 +108,22 @@ Button {
     width: 200px;
 }
 
-/* .modal {
-    width: 200px;
+.modal {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
     background: white;
-    color: green;
-    text-align: center;
-} */
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    border-radius: 5px;
+    text-transform: capitalize;
+}
+
+.modal p {
+    margin-bottom: 0;
+    color: darkred;
+}
 
 /* media rules */
 

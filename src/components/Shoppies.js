@@ -10,35 +10,10 @@ import Nominations from "./Nominations";
 import Modal from "./Modal";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
+import { reducer } from "./Reducer";
+import "../App.css";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-
-const reducer = (action, state) => {
-    if (action.type === "ADD_MOVIE") {
-        return {
-            ...state,
-            isModalOpen: true,
-            modalContent: "Movie Title added",
-        };
-    }
-
-    if (action.type === "REMOVE") {
-        return {
-            ...state,
-            isModalOpen: true,
-            modalContent: "movie title removed",
-        };
-    }
-
-    if (action.type === "CLOSE_MODAL") {
-        return {
-            ...state,
-            isModalOpen: false,
-        };
-    }
-    // throw new Error("no matching type");
-    return state;
-};
 
 const defaultState = {
     isModalOpen: false,
@@ -69,6 +44,10 @@ function Shoppies() {
     };
 
     const handleNomination = (Title, imdbID) => {
+        if (nomination.length >= 5) {
+            dispatch({ type: "LENGHT" });
+        }
+
         if (Title) {
             const addTitle = nomination.concat({
                 Title,
