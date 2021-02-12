@@ -5,11 +5,11 @@ function Modal({ modalContent, closeModal }) {
     useEffect(() => {
         setTimeout(() => {
             closeModal();
-        }, 3000);
+        }, 1000);
     });
 
     return (
-        <div className="modal">
+        <div>
             <p>{modalContent}</p>
         </div>
     );

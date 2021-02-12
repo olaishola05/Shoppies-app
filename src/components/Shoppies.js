@@ -46,9 +46,7 @@ function Shoppies() {
     const handleNomination = (Title, imdbID) => {
         if (nomination.length >= 5) {
             dispatch({ type: "LENGHT" });
-        }
-
-        if (Title) {
+        } else {
             const addTitle = nomination.concat({
                 Title,
                 imdbID,
@@ -57,6 +55,25 @@ function Shoppies() {
             setnomination(addTitle);
         }
     };
+
+    // delete nominees
+    const delNomination = (imdbID) => {
+        const newMovie = nomination.filter(
+            (item) => item.imdbID !== imdbID
+        );
+        setnomination(newMovie);
+        dispatch({ type: "REMOVE" });
+    };
+
+    useEffect(() => {
+        inputRef.current.focus();
+    });
+
+    const closeModal = () => {
+        dispatch({ type: "CLOSE_MODAL" });
+    };
+
+    // LocalStorage section
     useEffect(() => {
         const nomination = JSON.parse(
             localStorage.getItem("nominations")
@@ -76,23 +93,6 @@ function Shoppies() {
     useEffect(() => {
         localStorage.removeItem("nominations");
     }, []);
-
-    // delete nominees
-    const delNomination = (imdbID) => {
-        const newMovie = nomination.filter(
-            (item) => item.imdbID !== imdbID
-        );
-        setnomination(newMovie);
-        dispatch({ type: "REMOVE" });
-    };
-
-    useEffect(() => {
-        inputRef.current.focus();
-    });
-
-    const closeModal = () => {
-        dispatch({ type: "CLOSE_MODAL" });
-    };
 
     return (
         <>
