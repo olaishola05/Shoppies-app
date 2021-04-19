@@ -3,7 +3,7 @@ export const reducer = (action, state) => {
         return {
             ...state,
             isModalOpen: true,
-            modalContent: "Movie Title added",
+            modalContent: "Movie nomination added",
         };
     }
 
@@ -11,7 +11,7 @@ export const reducer = (action, state) => {
         return {
             ...state,
             isModalOpen: true,
-            modalContent: "movie title removed",
+            modalContent: "movie nomination removed",
         };
     }
 
@@ -27,7 +27,7 @@ export const reducer = (action, state) => {
             ...state,
             isModalOpen: true,
             modalContent:
-                "You have exceeded your max nomination",
+                "You have exceeded your maximum movies nomination",
         };
     }
     // throw new Error("no matching type");

@@ -5,7 +5,7 @@ function Modal({ modalContent, closeModal }) {
     useEffect(() => {
         setTimeout(() => {
             closeModal();
-        }, 1000);
+        }, 3000);
     });
 
     return (

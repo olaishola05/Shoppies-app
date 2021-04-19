@@ -16,6 +16,12 @@ html {
     margin-bottom: 50px;
 }
 
+.modalMsg {
+    text-align: center;
+    padding-top: 20px;
+    color: darkred;
+}
+
 .search-container {
     width: 80%;
     margin: 0 auto;

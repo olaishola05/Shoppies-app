@@ -96,13 +96,15 @@ function Shoppies() {
 
     return (
         <>
-            <Container>
+            <div className="modalMsg">
                 {state.isModalOpen && (
                     <Modal
                         modalContent={state.modalContent}
                         closeModal={closeModal}
                     />
                 )}
+            </div>
+            <Container>
                 <Row>
                     <SearchBox
                         query={query}
@@ -117,8 +119,9 @@ function Shoppies() {
                                 {!data ? (
                                     <div className="movie-container">
                                         <h5>
-                                            Search for favorite
-                                            movies to nominate
+                                            Search for your
+                                            favorite movies to
+                                            nominate
                                         </h5>
                                     </div>
                                 ) : (

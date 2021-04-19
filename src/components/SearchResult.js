@@ -19,7 +19,6 @@ function SearchResult(props) {
 
                                 <Button
                                     variant="secondary"
-                                    disabled={movie.isActive}
                                     size="sm"
                                     onClick={() =>
                                         props.handleNomination(
