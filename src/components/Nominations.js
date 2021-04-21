@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 function Nominations({ nomination, delNomination }) {
     return (
         <div className="nominees">
-            <h4>Nominees</h4>
+            <h4>Nominations</h4>
 
             <div className="movieList">
                 {nomination.map((movie, index) => {
